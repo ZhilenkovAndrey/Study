@@ -43,10 +43,10 @@ func main() {
 	fmt.Printf("Type: %T, Value: %#v\n\n", mapByMake, mapByMake)
 
 	mapIteration := map[string]int{"First": 1, "Second": 2,
-		"Third": 3, "Fourth": 4} //iteration
+		"Third": 3, "Fourth": 4}
 
-	for key, value := range mapIteration { //no subsequence
-		fmt.Printf("Key: %d, Value: %s", key, value)
+	for key, value := range mapIteration { //no subsequence iteration
+		fmt.Printf("Key: %s, Value: %d \n", key, value)
 	}
 
 	Users := []User{
@@ -64,7 +64,7 @@ func main() {
 		}
 	}
 
-	fmt.Printf("Type: %T, Value: %#v\n\n", UniqueUsers, UniqueUsers)
+	fmt.Printf("Type: %T, Value: %#v \n\n", UniqueUsers, UniqueUsers)
 
 	UsersMap := make(map[int]User, len(Users))
 	for _, user := range Users {
@@ -73,21 +73,23 @@ func main() {
 		}
 	}
 
-    fmt.Println(FindInSlice(57,Users))
-    fmt.Println(FindInMap(57,usersMap))
+	fmt.Println(FindInSlice(57, Users))
+	fmt.Println(FindInMap(57, UsersMap))
 
-    func FindInSlice(id int, users[]User) *User {
-        for _, user := range users {
-            if user.Id == id {
-                return &user 
-            }
-        }
-        return nil
-    }
+}
 
-    func FindInMap(id int, UsersMap map[int]User) *User {
-        if user, ok := UsersMap[id]; ok {
-            return &User
-        }
-    }
+func FindInSlice(id int, users []User) *User {
+	for _, user := range users {
+		if user.Id == id {
+			return &user
+		}
+	}
+	return nil
+}
+
+func FindInMap(id int, UsersMap map[int]User) *User {
+	if User, ok := UsersMap[id]; ok {
+		return &User
+	}
+	return nil
 }
