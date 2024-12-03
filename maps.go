@@ -50,7 +50,7 @@ func main() {
 	}
 
 	Users := []User{
-		{Id: 1, Name: "Vasia"},
+		{1, "Vasia"},
 		{45, "Petya"},
 		{57, "john"},
 		{45, "Petya"},
@@ -67,6 +67,7 @@ func main() {
 	fmt.Printf("Type: %T, Value: %#v \n\n", UniqueUsers, UniqueUsers)
 
 	UsersMap := make(map[int]User, len(Users))
+
 	for _, user := range Users {
 		if _, ok := UsersMap[user.Id]; !ok {
 			UsersMap[user.Id] = user
@@ -78,18 +79,18 @@ func main() {
 
 }
 
+func FindInMap(id int, UsersMap map[int]User) *User {
+	if User, ok := UsersMap[id]; ok {
+		return &User
+	}
+	return nil
+}
+
 func FindInSlice(id int, users []User) *User {
 	for _, user := range users {
 		if user.Id == id {
 			return &user
 		}
-	}
-	return nil
-}
-
-func FindInMap(id int, UsersMap map[int]User) *User {
-	if User, ok := UsersMap[id]; ok {
-		return &User
 	}
 	return nil
 }
