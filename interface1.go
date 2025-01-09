@@ -3,7 +3,7 @@ package main
 import . "fmt"
 
 type Runner interface { //must have: 1 interface - 1 metod
-	Run()
+	Run() string
 }
 
 type Swimmer interface {
@@ -28,15 +28,15 @@ type Duck struct {
 	Name, Surname string
 }
 
-func (h Human) Run() { // implimentation
-	Sprintf("Человек %s бегает", h.Name)
+func (h Human) Run() string { // implimentation
+	return Sprintf("Человек %s бегает", h.Name)
 }
 
-func (d Duck) Run() {
-	Println("Утка бегает")
+func (d Duck) Run() string {
+	return "Утка бегает"
 }
 
-func interfaceValues() { // Если у интерфейсного значения нету
+func interfaceValues() Runner { // Если у интерфейсного значения нету
 
 	var runner Runner //конкретного типа и значения, то он равен nil
 	Printf("Type: %T, Value: %#v\n", runner, runner)
@@ -74,11 +74,13 @@ func interfaceValues() { // Если у интерфейсного значен�
 
 	emptyInterface = true //в пустой интерфейс можно положить значение любого типа
 	Printf("Type: %T, Value: %#v\n", emptyInterface, emptyInterface)
+
+	return runner
 }
 
-func typeAssertuonAndPolimorfism() {
-	var runner = Runner
-	Printf("Type: %tT, Value: %#v/n", runner, runner)
+func typeAssertionAndPolimorfism() Runner {
+	var runner Runner
+	Printf("Type: %T, Value: %#v\n", runner, runner)
 
 	john := &Human{"John"}
 	runner = john
@@ -87,12 +89,51 @@ func typeAssertuonAndPolimorfism() {
 	donald := &Duck{"Donald", "Duck"}
 	runner = donald
 	polimorfism(donald)
+
+	return runner
 }
 
 func polimorfism(runner Runner) { //вызывая эту функцию у человека или у утки
 	Println(runner.Run()) //мы абстрагируемся от конкретных типов
 }
 
+func (h Human) writeCode() {
+	Println("Human write code")
+}
+
+func (d Duck) fly() string {
+	return "duck fly"
+}
+func (d Duck) Swimm() string {
+	return "duck swimm"
+}
+
+func typeAssertion(runner Runner) { //type assertion - проверка типа
+	Printf("Type: %T, Value: %#v\n", runner, runner)
+	if human, ok := runner.(*Human); ok {
+		Printf("Type: %T, Value: %#v\n", human, human)
+		human.writeCode()
+	}
+	if duck, ok := runner.(*Duck); ok {
+		Printf("Type: %T, Value: %#v\n", duck, duck)
+		Println(duck.fly())
+	}
+}
+
+func typeSwitch(runner Runner) { //проверка типа
+	switch v := runner.(type) {
+	case *Human:
+		Println(v.Run())
+	case *Duck:
+		Println(v.Swimm())
+	default:
+		Printf("Type: %T, Value: %#v\n", v, v)
+	}
+}
+
 func main() {
 	interfaceValues()
+	typeAssertionAndPolimorfism()
+	typeAssertion(interfaceValues())
+	typeSwitch(typeAssertionAndPolimorfism())
 }
